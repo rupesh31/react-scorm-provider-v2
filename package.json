@@ -1,5 +1,5 @@
 {
-  "name": "react-scorm-provider",
+  "name": "react-scorm-provider-v2",
   "version": "0.2.4",
   "description": "Components to easily enable SCORM API communication in React projects.",
   "main": "lib/index.js",
@@ -66,10 +66,10 @@
     "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^3.3.1"
   },
-  "author": "S4 NetQuest",
-  "homepage": "https://github.com/S4-NetQuest/react-scorm-provider",
+  "author": "Rupesh Mody",
+  "homepage": "https://github.com/rupesh31/react-scorm-provider-v2.git",
   "repository": {
     "type": "git",
-    "url": "git@github.com:S4-NetQuest/react-scorm-provider.git"
+    "url": "git@github.com:rupesh31/react-scorm-provider-v2.git"
   }
 }

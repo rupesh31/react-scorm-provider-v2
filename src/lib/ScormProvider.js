@@ -43,11 +43,13 @@ class ScormProvider extends Component {
   componentDidMount() {
     this.createScormAPIConnection();
     window.addEventListener("beforeunload", this.closeScormAPIConnection);
+    window.addEventListener("unload", this.closeScormAPIConnection);
   }
 
   componentWillUnmount() {
     this.closeScormAPIConnection();
     window.removeEventListener("beforeunload", this.closeScormAPIConnection);
+    window.removeEventListener("unload", this.closeScormAPIConnection);
   }
 
   createScormAPIConnection() {

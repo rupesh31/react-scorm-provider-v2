@@ -65,7 +65,7 @@ const App = () => {
 // adding a ScormProvider
 
 import React from 'react';
-import ScormProvider from 'react-scorm-provider';
+import ScormProvider from 'react-scorm-provider-v2';
 
 const App = () => {
   return (
@@ -139,7 +139,7 @@ export default App;`}
 // enhancing a component and adding the sco object to its props
 
 import React from 'react';
-import { withScorm } from 'react-scorm-provider';
+import { withScorm } from 'react-scorm-provider-v2';
 
 const StandardFunctionalComponent = (props) => {
   return (
@@ -166,7 +166,7 @@ export default EnhancedComponent;
           <pre>
             <code style={{ whiteSpace: 'pre-wrap'}}>{`
 import React from 'react';
-import ScormProvider, { withScorm } from 'react-scorm-provider';
+import ScormProvider, { withScorm } from 'react-scorm-provider-v2';
 
 const Learner = (props) => {
   return (

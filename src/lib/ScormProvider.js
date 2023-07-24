@@ -141,10 +141,15 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
 
     (0, _createClass2["default"])(ScormProvider, [{
                 key: "componentDidMount",
+
                 value: function componentDidMount() {
+                    console.log("componentDidUnmount");
                     this.createScormAPIConnection();
                     window.addEventListener("beforeunload", this.closeScormAPIConnection);
+               
+
                     window.addEventListener("unload", this.closeScormAPIConnection);
+
                 }
             }, {
                 key: "componentWillUnmount",
@@ -199,9 +204,10 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
                     if (!this.state.apiConnected)
                         return;
                     console.log("closeScormAPIConnection method called..");
+                    const event = new Event('onWindowClose');
+                    document.dispatchEvent(event);
                     this.sessionTime();
-                    this.setSuspendData();
-
+                    this.setSuspendData();                   
                     _pipwerksScormApiWrapper.SCORM.status('set', this.state.completionStatus);
 
                     _pipwerksScormApiWrapper.SCORM.save();

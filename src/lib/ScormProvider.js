@@ -107,6 +107,8 @@ var ScoContext = _react["default"].createContext({
     scormVersion: '',
     getSuspendData: function getSuspendData() {},
     setSuspendData: function setSuspendData() {},
+    setSuspendDataAll: function setSuspendDataAll() {},
+    setSuspendDataWithSpreadObject: function setSuspendDataWithSpreadObject() {},
     clearSuspendData: function clearSuspendData() {},
     setStatus: function setStatus() {},
     setScore: function setScore() {},
@@ -206,6 +208,7 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
                     console.log("closeScormAPIConnection method called..");
                     const event = new Event('onWindowClose');
                     document.dispatchEvent(event);
+                    // this.setSuspendDataAll()
                     this.sessionTime();
                     this.setSuspendData();                   
                     _pipwerksScormApiWrapper.SCORM.status('set', this.state.completionStatus);
@@ -254,6 +257,7 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
                 value: function setSuspendData(key, val) {
                     var _this4 = this;
 
+                    
                     return new Promise(function (resolve, reject) {
                         if (!_this4.state.apiConnected)
                             return reject('SCORM API not connected');
@@ -265,6 +269,60 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
 
                         if (!success)
                             return reject('could not set the suspend data provided');
+
+                        _this4.setState({
+                            suspendData: currentData
+                        }, function () {
+                            _pipwerksScormApiWrapper.SCORM.save();
+
+                            return resolve(_this4.state.suspendData);
+                        });
+                    });
+                }
+            },{
+              key: "setSuspendDataWithSpreadObject",
+              value: function setSuspendDataWithSpreadObject( val) {
+                  var _this4 = this;
+
+                  console.log("set suspended data as spread object is called")
+                  return new Promise(function (resolve, reject) {
+                      if (!_this4.state.apiConnected)
+                          return reject('SCORM API not connected');
+                      var currentData = _objectSpread({}, _this4.state.suspendData) || {};
+                    //   if (isNumOrString(key))
+                    currentData = {...currentData,...val};
+
+                      var success = _pipwerksScormApiWrapper.SCORM.set('cmi.suspend_data', JSON.stringify(currentData));
+
+                      if (!success)
+                          return reject('could not set the suspend data provided');
+
+                      _this4.setState({
+                          suspendData: currentData
+                      }, function () {
+                          _pipwerksScormApiWrapper.SCORM.save();
+
+                          return resolve(_this4.state.suspendData);
+                      });
+                  });
+              }
+          },{
+                key: "setSuspendDataAll",
+                value: function setSuspendDataAll(key, val) {
+                    const suspendData = {"assessmentStatus":"passed","currentScene":6,"currentSection":2,"currentSubScene":0,"visitedArray":[[[2],[2],[2],[2],[2],[2,2,2,2,2,2],[2],[2,2],[2],[2]],[[2],[2]],[[2],[2],[2],[2],[2],[2],[2]],[[2]],[[0]]],"drag_data_0":{},"knowledgeCheckQuestionStatus":[[-1,1],[-1,1],[-1,1],[1,-1]],"knowledgeCheckUserAttempt":[[0,2],[0,2],[0,2],[1,0]],"knowledgeCheckCorrectStatus":[["NA",true],["NA",false],["NA",false],[true,"NA"]],"knowledgeCheckHintClicked":[false,true,true,false],"knowledgeCheckShuffleStatus":[[false,true],[false,true],[false,true],[true,false]],"knowledgeCheckUserSelection":[[-1,1],[-1,2],[-1,2],[1,-1]],"drag_data_1":{},"drag_data_2":{},"tabVisitedArray_0":[0,0,0,0,0,0,0,1],"userName":"0","page_0":{"mainImageData":{},"mainDataTable":{"0":[],"1":[]},"dataTable":[],"tableData":{},"textareaData":[],"imageData":[],"fillInBlank":[],"gridDataArray":[]},"page_1":{"mainImageData":{"0":"","1":""},"mainDataTable":{"0":[]},"dataTable":[],"tableData":{},"textareaData":[],"imageData":[],"fillInBlank":[],"gridDataArray":[]},"page_2":{"mainImageData":{},"mainDataTable":{"0":[],"1":[]},"dataTable":[],"tableData":{},"textareaData":[],"imageData":[],"fillInBlank":[],"gridDataArray":[]},"page_3":{"mainImageData":{},"mainDataTable":{"0":[]},"dataTable":[],"tableData":{},"textareaData":[null,null,null],"imageData":[],"fillInBlank":[],"gridDataArray":[]}};
+                    var _this4 = this;
+                    console.log("suspend data setter all called---------->",suspendData)
+                    return new Promise(function (resolve, reject) {
+                        if (!_this4.state.apiConnected)
+                            return reject('SCORM API not connected');
+                        var currentData = _objectSpread({}, _this4.state.suspendData) || {};
+                        
+                            currentData = suspendData;
+
+                        var success = _pipwerksScormApiWrapper.SCORM.set('cmi.suspend_data', JSON.stringify(currentData));
+
+                        if (!success)
+                            return reject('could not set the suspend data provided (all)');
 
                         _this4.setState({
                             suspendData: currentData
@@ -722,6 +780,8 @@ var ScormProvider = /*#__PURE__*/ function (_Component) {
                     var val = _objectSpread({}, this.state, {
                         getSuspendData: this.getSuspendData,
                         setSuspendData: this.setSuspendData,
+                        setSuspendDataAll: this.setSuspendDataAll,
+                        setSuspendDataWithSpreadObject:this.setSuspendDataWithSpreadObject,
                         clearSuspendData: this.clearSuspendData,
                         setStatus: this.setStatus,
                         setScore: this.setScore,
